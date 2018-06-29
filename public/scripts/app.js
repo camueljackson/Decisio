@@ -1,5 +1,8 @@
 $('document').ready(function () {
 
+
+let formCount = 0;
+
 // NEW FORM ELEMENT
 $('.fa-plus-square').on('click', event => {
   event.preventDefault();
@@ -13,79 +16,80 @@ $('.fa-plus-square').on('click', event => {
           $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.pollItemContainer');
 
         } else {
-          let newfield = $('<input>').attr('name', 'newFormField').appendTo('.pollItemContainer');
+          formCount++;
+          let newfield = $('<input>').attr('name', 'newFormField' + formCount).appendTo('.pollItemContainer');
         }
   });
-
 
 
 // SEND
 $('.btn-primary').on('click', event => {
   event.preventDefault();
 
-  let $valueOfFormFields = $( '.formData').serializeArray()
+  let $valueOfFormFields = $('.formData').serializeArray();
 
-  let data = {};
-
-  for (let name of $valueOfFormFields) {
-    console.log(name.value)
-  }
-
-
+  $.ajax({
+    url: '/polls',
+    method: 'POST',
+    data: $valueOfFormFields,
+    success: function (response) {
+      console.log('working?')
+    }
+  });
 
 });
 
 
-$('.registerbutton').on('click', event => {
-  event.preventDefault();
+// $('.registerbutton').on('click', event => {
+//   event.preventDefault();
 
-  let username = $("usernametext").val();
-  let email = $("emailtext").val();
-  let password = $("passwordtext").val();
+//   let username = $("usernametext").val();
+//   let email = $("emailtext").val();
+//   let password = $("passwordtext").val();
 
-  let newUser = {
-   "username": username,
-   "email": email,
-   "password": password
-  };
+//   let newUser = {
+//    "username": username,
+//    "email": email,
+//    "password": password
+//   };
 
-        $.ajax({
-             url: '/registration',
-             method: 'POST',
-             data: newUser,
-             success: function (response) {}
-         });
-});
+//         $.ajax({
+//              url: '/registration',
+//              method: 'POST',
+//              data: newUser,
+//              success: function (response) {}
+//          });
+// });
 
-$('.loginbutton').on('click', event => {
-  event.preventDefault();
+// $('.loginbutton').on('click', event => {
+//   event.preventDefault();
 
-  let email = $("emailtext").val();
-  let password = $("passwordtext").val();
+//   let email = $("emailtext").val();
+//   let password = $("passwordtext").val();
 
-  let loginUser = {
-   "email": email,
-   "password": password
-  };
+//   let loginUser = {
+//    "email": email,
+//    "password": password
+//   };
 
-        $.ajax({
-             url: '/login',
-             method: 'POST',
-             data: loginUser,
-             success: function (response) {}
-         });
-});
+//         $.ajax({
+//              url: '/login',
+//              method: 'POST',
+//              data: loginUser,
+//              success: function (response) {}
+//          });
+// });
 
-$('.logoutbutton').on('click', event => {
-  event.preventDefault();
+// $('.logoutbutton').on('click', event => {
+//   event.preventDefault();
 
 
-        $.ajax({
-             url: '/logout',
-             method: 'POST',
-             success: function (response) {}
-         });
-});
+//         $.ajax({
+//              url: '/logout',
+//              method: 'POST',
+//              success: function (response) {}
+//          });
+// });
 
   // $.ajax({
   //   method: "GET",
