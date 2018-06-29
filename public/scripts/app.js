@@ -1,102 +1,180 @@
 $('document').ready(function () {
 
-  let formCount = 0;
+
+let formCount = 0;
 
 // NEW FORM ELEMENT
-$('.fa-plus-square').on('click', event => {        // ADD NEW FORM BUTTON
-
+$('.fa-plus-square').on('click', event => {
   event.preventDefault();
+  $('.emptyField').remove();
 
-  if (!$('.newFormText')) { // check for not extra field.  If there is NO NEW FIELD, go into 2nd ifs
-
-
-    let form1text = $('.choiceA').val().length;
-    let form2text = $('.choiceB').val().length;
+    let form1text = $('.choice1').val().length;
+    let form2text = $('.choice2').val().length;
     let emptyFieldMessage = 'Please enter text';
 
-        if (form1text === 0 || form2text === 0) { // if no extra field, check that first 2 are filled. If not, error message
-          $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
+        if (form1text === 0 || form2text === 0) {
+          $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.pollItemContainer');
 
-        } else { // if no new box, first 2 field full, add new field
-
-          $('<input>').addClass(`newFormText`).addClass(formCount).appendTo('.choiceForm');
+        } else {
+          formCount++;
+          let newfield = $('<input>').attr('name', 'newFormField' + formCount).appendTo('.pollItemContainer');
         }
-
-// If there IS A NEW FIELD, check value
-    } else if ($('.newFormText') === 0) {
-      $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-    } else {
-      $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-    }
-
   });
 
 
-   // ----------------------------
+// SEND
+$('.btn-primary').on('click', event => {
+  event.preventDefault();
 
-//     $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-//   } else {        // if there is a 3rd form but it is no
+  let $valueOfFormFields = $('.formData').serializeArray();
 
-//   }
+  $.ajax({
+    url: '/polls',
+    method: 'POST',
+    data: $valueOfFormFields,
+    success: function (response) {
+      console.log('working?')
+    }
+  });
 
-
-//   } else {
-//     let emptyFieldMessage;
-//     $('.emptyField').remove();
-
-//     let form1text = $('.choiceA').val().length;
-//     let form2text = $('.choiceB').val().length;
-
-//     emptyFieldMessage = 'Please enter text';
-
-//     if (form1text === 0 || form2text === 0) {
-//       $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-//     } else {
-//       console.log('working??')
-//       formCount++;
-//       $('<input>').addClass(`newFormText`).addClass(formCount).appendTo('.choiceForm');
-//       }
-//   }
-// });
+});
 
 
-//COMPLETING FORM
-        // $('.btn-primary').on('click', event => {
-
-        //  event.preventDefault();
-
-        //  let data = {
-        //     title: $('.formTitle'),
-        //     description: $('formDescription'),
-        //     choiceA: $('choiceA'),
-        //     choiceB: $('choiceB'),
-        //  };
+// NAV-BAR CREATE BUTTON
+$('.createpoll').on('click', event => {
+  event.preventDefault();
 
 
-        //  for (let i = 0; i < formCount; i++) {
-        //     data[i] = $(`.newFormText[i]`);
-        //  };
+        $.ajax({
+             url: '/polls',
+             method: 'POST',
+             success: function (response) {}
+         });
+});
+
+// VOTE SUBMISSION BUTTON
+$('.votebutton').on('click', event => {
+  event.preventDefault();
+
+  //voting scores
+
+        $.ajax({
+             url: '/polls/:id',
+             method: 'POST',
+             data: scores,
+             success: function (response) {}
+         });
+});
+
+// DELETE BUTTON
+$('.deletebutton').on('click', event => {
+  event.preventDefault();
+
+  //pollID
+
+  $.ajax({
+       url: '/polls/:id',
+       method: 'DELETE',
+       data: pollID,
+       success: function (response) {}
+   });
+});
+
+$('.registerbutton').on('click', event => {
+  event.preventDefault();
 
 
-        //  $.ajax({
-        //       url: '/polls',
-        //       method: 'GET',
-        //       data: data,
-        //       success: function (response) {
-        //         console.log('it worked');
-        //       }
-        //     });
-        //   });
+
+  $.ajax({
+       url: '/users',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+// NAV-BAR REGISTER BUTTON
+$('.registerbutton').on('click', event => {
+  event.preventDefault();
 
 
-  // $.ajax({
-  //   method: "GET",
-  //   url: "/api/users"
-  // }).done((users) => {
-  //   for(user of users) {
-  //     $("<div>").text(user.name).appendTo($("body"));
-  //   }
-  // });;
+
+  $.ajax({
+       url: '/polls/:id',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+// REGISTRATION PAGE REGISTER BUTTON
+$('#registerbutton_submit').on('click', event => {
+  event.preventDefault();
+
+  let username = $("#registerUserName").val();
+  let email = $("#registerEmail").val();
+  let password = $("#registerPassword").val();
+
+  let newUser = {
+   "username": username,
+   "email": email,
+   "password": password
+  };
+  console.log(newUser);
+
+  $.ajax({
+       url: '/registration',
+       method: 'POST',
+       data: newUser,
+       success: function (response) {
+        window.location.href = "/polls"
+       }
+   });
+});
+
+// NAV-BAR LOGGIN BUTTON
+$('.loginbutton').on('click', event => {
+  event.preventDefault();
+
+
+
+  $.ajax({
+       url: '/polls/:id',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+// LOGIN PAGE LOGIN BUTTON
+$('#loginbutton_submit').on('click', event => {
+  event.preventDefault();
+
+  let email = $("#loginEmail").val();
+  let password = $("#loginPassword").val();
+
+  let loginUser = {
+   "email": email,
+   "password": password
+  };
+
+  $.ajax({
+       url: '/login',
+       method: 'POST',
+       data: loginUser,
+       success: function (response) {}
+   });
+});
+
+// NAV-BAR LOGOUT
+$('.logoutbutton').on('click', event => {
+  event.preventDefault();
+
+
+  $.ajax({
+       url: '/logout',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
 
 
 });
