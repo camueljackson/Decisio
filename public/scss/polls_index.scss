@@ -1,0 +1,25 @@
+main {
+  flex-direction: column;
+  display: flex ;
+}
+
+section {
+  background-color: lightgrey;
+
+}
+
+.pie_chart {
+  display:inline-block;
+  width:20rem;
+  height:15rem;
+}
+
+.text_info {
+  display:inline-block;
+  float:right;
+}
+
+.btn-see-details {
+  float:right
+}
+
