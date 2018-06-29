@@ -83,7 +83,7 @@ app.get("/polls", (req, res) => {
 //   } else {
 //     res.redirect("/home");
 //   }
-res.render("polls")
+res.render("polls_index")
 });
 // // Create poll page
 app.get("/polls/new", (req, res) => {
