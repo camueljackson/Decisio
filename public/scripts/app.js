@@ -40,65 +40,141 @@ $('.btn-primary').on('click', event => {
 });
 
 
-// $('.registerbutton').on('click', event => {
-//   event.preventDefault();
-
-//   let username = $("usernametext").val();
-//   let email = $("emailtext").val();
-//   let password = $("passwordtext").val();
-
-//   let newUser = {
-//    "username": username,
-//    "email": email,
-//    "password": password
-//   };
-
-//         $.ajax({
-//              url: '/registration',
-//              method: 'POST',
-//              data: newUser,
-//              success: function (response) {}
-//          });
-// });
-
-// $('.loginbutton').on('click', event => {
-//   event.preventDefault();
-
-//   let email = $("emailtext").val();
-//   let password = $("passwordtext").val();
-
-//   let loginUser = {
-//    "email": email,
-//    "password": password
-//   };
-
-//         $.ajax({
-//              url: '/login',
-//              method: 'POST',
-//              data: loginUser,
-//              success: function (response) {}
-//          });
-// });
-
-// $('.logoutbutton').on('click', event => {
-//   event.preventDefault();
+// NAV-BAR CREATE BUTTON
+$('.createpoll').on('click', event => {
+  event.preventDefault();
 
 
-//         $.ajax({
-//              url: '/logout',
-//              method: 'POST',
-//              success: function (response) {}
-//          });
-// });
+        $.ajax({
+             url: '/polls',
+             method: 'POST',
+             success: function (response) {}
+         });
+});
 
-  // $.ajax({
-  //   method: "GET",
-  //   url: "/api/users"
-  // }).done((users) => {
-  //   for(user of users) {
-  //     $("<div>").text(user.name).appendTo($("body"));
-  //   }
-  // });;
+// VOTE SUBMISSION BUTTON
+$('.votebutton').on('click', event => {
+  event.preventDefault();
+
+  //voting scores
+
+        $.ajax({
+             url: '/polls/:id',
+             method: 'POST',
+             data: scores,
+             success: function (response) {}
+         });
+});
+
+// DELETE BUTTON
+$('.deletebutton').on('click', event => {
+  event.preventDefault();
+
+  //pollID
+
+  $.ajax({
+       url: '/polls/:id',
+       method: 'DELETE',
+       data: pollID,
+       success: function (response) {}
+   });
+});
+
+$('.registerbutton').on('click', event => {
+  event.preventDefault();
+
+
+
+  $.ajax({
+       url: '/users',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+// NAV-BAR REGISTER BUTTON
+$('.registerbutton').on('click', event => {
+  event.preventDefault();
+
+
+
+  $.ajax({
+       url: '/polls/:id',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+// REGISTRATION PAGE REGISTER BUTTON
+$('#registerbutton_submit').on('click', event => {
+  event.preventDefault();
+
+  let username = $("#registerUserName").val();
+  let email = $("#registerEmail").val();
+  let password = $("#registerPassword").val();
+
+  let newUser = {
+   "username": username,
+   "email": email,
+   "password": password
+  };
+  console.log(newUser);
+
+  $.ajax({
+       url: '/registration',
+       method: 'POST',
+       data: newUser,
+       success: function (response) {
+        window.location.href = "/polls"
+       }
+   });
+});
+
+// NAV-BAR LOGGIN BUTTON
+$('.loginbutton').on('click', event => {
+  event.preventDefault();
+
+
+
+  $.ajax({
+       url: '/polls/:id',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+// LOGIN PAGE LOGIN BUTTON
+$('#loginbutton_submit').on('click', event => {
+  event.preventDefault();
+
+  let email = $("#loginEmail").val();
+  let password = $("#loginPassword").val();
+
+  let loginUser = {
+   "email": email,
+   "password": password
+  };
+
+  $.ajax({
+       url: '/login',
+       method: 'POST',
+       data: loginUser,
+       success: function (response) {}
+   });
+});
+
+// NAV-BAR LOGOUT
+$('.logoutbutton').on('click', event => {
+  event.preventDefault();
+
+
+  $.ajax({
+       url: '/logout',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
 
 
 });
