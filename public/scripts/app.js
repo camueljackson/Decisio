@@ -1,93 +1,91 @@
 $('document').ready(function () {
 
-  let formCount = 0;
-
 // NEW FORM ELEMENT
-$('.fa-plus-square').on('click', event => {        // ADD NEW FORM BUTTON
-
+$('.fa-plus-square').on('click', event => {
   event.preventDefault();
+  $('.emptyField').remove();
 
-  if (!$('.newFormText')) { // check for not extra field.  If there is NO NEW FIELD, go into 2nd ifs
-
-
-    let form1text = $('.choiceA').val().length;
-    let form2text = $('.choiceB').val().length;
+    let form1text = $('.choice1').val().length;
+    let form2text = $('.choice2').val().length;
     let emptyFieldMessage = 'Please enter text';
 
-        if (form1text === 0 || form2text === 0) { // if no extra field, check that first 2 are filled. If not, error message
-          $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
+        if (form1text === 0 || form2text === 0) {
+          $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.pollItemContainer');
 
-        } else { // if no new box, first 2 field full, add new field
-
-          $('<input>').addClass(`newFormText`).addClass(formCount).appendTo('.choiceForm');
+        } else {
+          let newfield = $('<input>').attr('name', 'newFormField').appendTo('.pollItemContainer');
         }
-
-// If there IS A NEW FIELD, check value
-    } else if ($('.newFormText') === 0) {
-      $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-    } else {
-      $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-    }
-
   });
 
 
-   // ----------------------------
 
-//     $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-//   } else {        // if there is a 3rd form but it is no
+// SEND
+$('.btn-primary').on('click', event => {
+  event.preventDefault();
 
-//   }
+  let $valueOfFormFields = $( '.formData').serializeArray()
 
+  let data = {};
 
-//   } else {
-//     let emptyFieldMessage;
-//     $('.emptyField').remove();
-
-//     let form1text = $('.choiceA').val().length;
-//     let form2text = $('.choiceB').val().length;
-
-//     emptyFieldMessage = 'Please enter text';
-
-//     if (form1text === 0 || form2text === 0) {
-//       $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.choiceForm');
-//     } else {
-//       console.log('working??')
-//       formCount++;
-//       $('<input>').addClass(`newFormText`).addClass(formCount).appendTo('.choiceForm');
-//       }
-//   }
-// });
+  for (let name of $valueOfFormFields) {
+    console.log(name.value)
+  }
 
 
-//COMPLETING FORM
-        // $('.btn-primary').on('click', event => {
 
-        //  event.preventDefault();
-
-        //  let data = {
-        //     title: $('.formTitle'),
-        //     description: $('formDescription'),
-        //     choiceA: $('choiceA'),
-        //     choiceB: $('choiceB'),
-        //  };
+});
 
 
-        //  for (let i = 0; i < formCount; i++) {
-        //     data[i] = $(`.newFormText[i]`);
-        //  };
+$('.registerbutton').on('click', event => {
+  event.preventDefault();
+
+  let username = $("usernametext").val();
+  let email = $("emailtext").val();
+  let password = $("passwordtext").val();
+
+  let newUser = {
+   "username": username,
+   "email": email,
+   "password": password
+  };
+
+        $.ajax({
+             url: '/registration',
+             method: 'POST',
+             data: newUser,
+             success: function (response) {}
+         });
+});
+
+$('.loginbutton').on('click', event => {
+  event.preventDefault();
+
+  let email = $("emailtext").val();
+  let password = $("passwordtext").val();
+
+  let loginUser = {
+   "email": email,
+   "password": password
+  };
+
+        $.ajax({
+             url: '/login',
+             method: 'POST',
+             data: loginUser,
+             success: function (response) {}
+         });
+});
+
+$('.logoutbutton').on('click', event => {
+  event.preventDefault();
 
 
-        //  $.ajax({
-        //       url: '/polls',
-        //       method: 'GET',
-        //       data: data,
-        //       success: function (response) {
-        //         console.log('it worked');
-        //       }
-        //     });
-        //   });
-
+        $.ajax({
+             url: '/logout',
+             method: 'POST',
+             success: function (response) {}
+         });
+});
 
   // $.ajax({
   //   method: "GET",
