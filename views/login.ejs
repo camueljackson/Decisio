@@ -3,23 +3,22 @@
   <head>
     <% include partials/_head %>
   </head>
-  <body>
+  <body class="loginBG">
     <header>
       <% include partials/_header %>
     </header>
-    <div class="container">
+    <div class="container centerflex">
       <div class="col-md-auto">
-      <h2>Please login!</h2>
-      <form>
+      <form class="loginZone">
         <div class="form-group">
-          <label for="inputEmail">Email address</label>
+          <label for="inputEmail"><span class="textLR">Email address</span></label>
           <input type="email" class="form-control" id="loginEmail" placeholder="Enter email">
         </div>
         <div class="form-group">
-          <label for="inputPassword">Password</label>
+          <label for="inputPassword"><span class="textLR">Password</span></label>
           <input type="password" class="form-control" id="loginPassword" placeholder="Password">
         </div>
-        <button type="submit" class="btn btn-primary" id="loginbutton_submit">Submit</button>
+        <button type="submit" class="btn btn-primary" id="loginbutton_submit">Login</button>
       </form>
     </div>
     </div>

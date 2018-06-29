@@ -3,25 +3,23 @@
   <head>
     <% include partials/_head %>
   </head>
-  <body>
+  <body class="loginBG">
     <header>
       <% include partials/_header %>
     </header>
-    <div class="container">
+    <div class="container centerflex">
       <div class="col-md-auto">
-      <h2>Welcome to the registration page!</h2>
-      <form>
+      <form class="loginZone">
         <div class="form-group">
-          <label for="inputUserName">Username</label>
+          <label for="registerUserName"><span class="textLR">Username</span></label>
           <input type="text" class="form-control" id="registerUserName" placeholder="Enter username">
         </div>
         <div class="form-group">
-          <label for="inputEmail">Email address</label>
+          <label for="registerEmail"><span class="textLR">Email address</span></label>
           <input type="email" class="form-control" id="registerEmail" placeholder="Enter email">
-          <small class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-          <label for="inputPassword">Password</label>
+          <label for="registerPassword"><span class="textLR">Password</span></label>
           <input type="password" class="form-control" id="registerPassword" placeholder="Password">
         </div>
         <button type="submit" class="btn btn-primary" id="registerbutton_submit">Submit</button>

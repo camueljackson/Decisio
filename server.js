@@ -195,7 +195,7 @@ app.post("/login", (req, res) => {
   console.log(user);
 
 //email/password match check
-// if(emailCheck === users[checkUser]["email"] && bcrypt.compareSync(passwordCheck, users[checkUser]["password"])) 
+// if(emailCheck === users[checkUser]["email"] && bcrypt.compareSync(passwordCheck, users[checkUser]["password"]))
 // req.session.user_id = users[checkUser]["cookie_id"];
 // res.redirect("/polls_index");
 
@@ -210,12 +210,12 @@ app.post("/registration", (req, res) => {
   let userEmail = req.body.email;
 
   knex('users')
-  .insert({ 
-    username: userName, 
-    email: userEmail, 
+  .insert({
+    username: userName,
+    email: userEmail,
     password: hashedPassword})
   .return('id')
-  .then((id) => { 
+  .then((id) => {
     req.session.user_id = id;
     res.status(201).send();
   });
