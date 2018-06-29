@@ -179,35 +179,54 @@ app.post("/polls", (req, res) => {
 });
 // Login post
 app.post("/login", (req, res) => {
-  let emailCheck = req.body['email'];
-  let passwordCheck = req.body['password'];
-  let users =
-  knex.select('users');
-  //email/password match check
-  for (checkUser in users) {
-    if(emailCheck === users[checkUser]["email"] && bcrypt.compareSync(passwordCheck, users[checkUser]["password"])) {
-      req.session.user_id = users[checkUser]["cookie_id"];
-      res.redirect("/polls_index");
-    } else {
-      alert("Invalid account information!");
-    }
-  }
+  let emailCheck = req.body.email;
+  let passwordCheck = req.body.password;
+  let user = {};
+
+  knex.select().from('users')
+                  .where('email', req.body.email)
+                  .then(function (data) {
+                    console.log(data);
+                    user = data;
+                  })
+                  .finally(function() {
+                    knex.destroy();
+                  });
+  console.log(user);
+
+//email/password match check
+// if(emailCheck === users[checkUser]["email"] && bcrypt.compareSync(passwordCheck, users[checkUser]["password"])) 
+// req.session.user_id = users[checkUser]["cookie_id"];
+// res.redirect("/polls_index");
+
 });
+
 // Registration post
 app.post("/registration", (req, res) => {
   let cookieID = generateRandomString();
+  let password = req.body.password;
   let hashedPassword = bcrypt.hashSync(password, 10);
-  // let userName = '';
-  // let userEmail = '';
+  let userName = req.body.username;
+  let userEmail = req.body.email;
+
   knex('users')
-  .insert({cookie_id: cookieID, userName: '', email: userEmail, password: hashedPassword})
-  res.redirect('/polls_index');
+  .insert({ 
+    username: userName, 
+    email: userEmail, 
+    password: hashedPassword})
+  .return('id')
+  .then((id) => { 
+    req.session.user_id = id;
+    res.status(201).send();
+  });
 });
+
 // Logout post
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/home");
 });
+
 // Specific poll ID DELETE
 app.delete("/polls/:id", (req, res) => {
   // let pollID = req.params.id;
