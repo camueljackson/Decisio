@@ -1,7 +1,8 @@
 $('document').ready(function () {
 
 
-let formCount = 0;
+let formCount = 2;
+let fieldID = 2;
 
 // NEW FORM ELEMENT
 $('.fa-plus-square').on('click', event => {
@@ -17,26 +18,47 @@ $('.fa-plus-square').on('click', event => {
 
         } else {
           formCount++;
-          let newfield = $('<input>').attr('name', 'newFormField' + formCount).appendTo('.pollItemContainer');
+          fieldID++;
+          let newfield = $('<input>').attr('name', 'newFormField' + formCount).attr('id', 'pollOptionID' + fieldID).appendTo('.pollItemContainer');
+          console.log(newfield);
         }
   });
 
 
-// SEND
-$('.btn-primary').on('click', event => {
+// COMPLETE FORM
+$('#formSubmit').on('click', event => {
   event.preventDefault();
-
   let $valueOfFormFields = $('.formData').serializeArray();
-
   $.ajax({
     url: '/polls',
     method: 'POST',
     data: $valueOfFormFields,
     success: function (response) {
-      console.log('working?')
+      console.log('working!')
     }
   });
+});
 
+
+
+$('.vote').on('click', event => {
+  event.preventDefault();
+
+  let voteItems = $('#sortable').children('li');
+
+  for (let i = 0; i<voteItems.length; i++) {
+      console.log(voteItems[i])
+
+      //voteItems[i] logs
+    }
+  $.ajax({
+    url: '/polls/show',
+    method: 'POST',
+    data:   ''     ,
+    success: function (response) {
+      console.log('working!')
+    }
+  });
 });
 
 
@@ -44,12 +66,11 @@ $('.btn-primary').on('click', event => {
 $('.createpoll').on('click', event => {
   event.preventDefault();
 
+
         $.ajax({
-             url: '/pollsredirect',
+             url: '/polls',
              method: 'POST',
-             success: function (response) {
-               window.location.href = "/polls"
-             }
+             success: function (response) {}
          });
 });
 
@@ -80,5 +101,18 @@ $('.deletebutton').on('click', event => {
        success: function (response) {}
    });
 });
-       
+
+$('.registerbutton').on('click', event => {
+  event.preventDefault();
+
+
+
+  $.ajax({
+       url: '/users',
+       method: 'POST',
+       success: function (response) {}
+   });
+});
+
+
 });
