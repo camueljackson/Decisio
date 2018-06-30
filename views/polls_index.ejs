@@ -3,6 +3,31 @@
   <% include partials/_head %>
   <!-- scss -->
   <link rel="stylesheet" type="text/css" href="main.css">
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    title:{
+      text: "My First Chart in CanvasJS"
+    },
+    data: [
+    {
+      // Change type to "doughnut", "line", "splineArea", etc.
+      type: "doughnut",
+      dataPoints: [
+        { label: "apple",  y: 10  },
+        { label: "orange", y: 15  },
+        { label: "banana", y: 25  },
+        { label: "mango",  y: 30  },
+        { label: "grape",  y: 28  }
+      ]
+    }
+    ]
+  });
+  chart.render();
+}
+</script>
 </head>
 <body>
   <header>
@@ -13,7 +38,8 @@
     <section class="container">
       <h4>Camuel Jackson hire</h4>
       <!-- <div class="poll_basic_info"> -->
-        <img class="pie_chart" src="https://i.pinimg.com/originals/4b/2b/dd/4b2bdd81f7c36b617b3a8c4da6982cfa.png" alt="Italian Trulli">
+        <div id="chartContainer" style="height: 300px; width: 50%;"></div>
+
         <div class="text_info">
           <p>153 responses</p>
           <p>Top response : Hire</p>
