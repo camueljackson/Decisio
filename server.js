@@ -14,6 +14,12 @@ const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
+
+// mailgun API SetUp
+var api_key = 'f245e6e2edf655db13b03dd15bf204f6-e44cc7c1-d7e0206f';
+var domain = 'sandboxd9447564f51c474189c20c5be95cd0ac.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -114,11 +120,24 @@ app.get("/registration", (req, res) => {
 // CREATE NEW POLL
 app.post("/polls", (req, res) => {
   console.log(req.body);
+   let emailParticipant = req.body['emails'];
+        var data = {
+        from: 'Excited User <pbolduc2354@gmail.com>',
+        to: emailParticipant,
+        subject: 'Hello',
+        text: 'Testing some Mailgun awesomeness!'
+      };
+console.log(data);
+      mailgun.messages().send(data, function (error, body) {
+        console.log(error)
+        console.log(body);
+      });
 
   let creatorEmail = req.body['form'][0]['value'];
   let pollName = req.body['form'][1]['value'];
-  let pollDescription = req.body['form'][2]['value'];
+  let pollDescription = req.body['form'][3]['value'];
   let pollUrl = generateRandomString();
+
 
   knex('polls')
   .insert({poll_name: pollName,

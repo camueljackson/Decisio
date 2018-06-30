@@ -29,15 +29,13 @@ $('.fa-plus-square').on('click', event => {
 $('#formSubmit').on('click', event => {
   event.preventDefault();
   let $valueOfFormFields = $('.formData').serializeArray();
-
   let $valueOfEmailFields = $('#example_emailBS').val();
+  let temp = JSON.parse($valueOfEmailFields)
 
   let output = {
     'form': $valueOfFormFields,
-    'emails': $valueOfEmailFields
+    'emails': temp
   }
-
-
   $.ajax({
     url: '/polls',
     method: 'POST',
