@@ -66,45 +66,36 @@ app.get("/polls/new", (req, res) => {
 
 // VOTING/SPECIFIC POLL PAGE
 app.get("/polls/:id", (req, res) => {
-  console.log(req.body);
-
+  let pollName = '';
+  let pollDescription = '';
+  let pollID = 0;
   let pollOptions = {};
-  let pollInfo = {}
 
-  // FIND POLL BASED ON URL (MAYBE CHANGE TO NAME)
+  // FIND POLL BASED ON URL
   knex.select()
       .from('polls')
-      .where('')
-      .then(function (poll) {
-        pollInfo = poll;
-        console.log("FOUND POLL")
-      })
-      .finally(function() {
-        knex.destroy();
+      .where('poll_url', req.params.id)
+      .then(function (data) {
+        pollName = data[0].poll_name;
+        pollDescription = data[0].poll_description;
+        pollID = data[0].id;
+        //FIND POLL OPTIONS BASED ON POLL_ID
+        knex.select()
+        .from('poll_options')
+        .where('poll_id', pollID)
+        .then(function (data) {
+          for (let i = 0; i < data.length; i++) {
+            pollOptions[`option${i}`] = data[i].entry_name;
+            pollOptions[`votes${i}`] = data[i].votes;
+          }
+          let templateVars = {
+            "poll_options": pollOptions,
+            "poll_decription": pollDescription,
+            "poll_name": pollName
+          };
+          res.render("polls_show", templateVars);
+        });
       });
-  console.log(pollInfo);
-
-  // FIND POLL OPTIONS BASED ON POLL ID
-  // knex.select()
-  //     .from('poll_options')
-  //     .where('poll_id', pollInfo.id)
-  //     .then(function (data) {
-  //       pollOptions = data;
-  //       console.log("FOUND POLL OPTIONS")
-  //     })
-  //     .finally(function() {
-  //       knex.destroy();
-  //     });
-  // console.log(pollOptions);
-
-
-  // templateVars = {
-  //   "poll_options": pollOptions,
-  //   "poll": pollInfo
-  // };
-
-  // ADD TEMPLATE VARS WHEN KNEX QUERIES ARE VERIFIED
-  res.render("polls_show");
 });
 
 // LOGIN PAGE
@@ -124,40 +115,34 @@ app.get("/registration", (req, res) => {
 app.post("/polls", (req, res) => {
   console.log(req.body);
 
-  // let pollName = '';
-  // let pollDescription = '';
-  // let pollUrl = generateRandomString();
-  // let creatorEmail = '';
+  let creatorEmail = req.body['form'][0]['value'];
+  let pollName = req.body['form'][1]['value'];
+  let pollDescription = req.body['form'][2]['value'];
+  let pollUrl = generateRandomString();
 
-  // knex('polls')
-  // .insert({poll_name: pollName,
-  //   poll_description: pollDescription,
-  //   poll_url: pollUrl,
-  //   creator_email: creatorEmail
-  //   });
-
-
-  // knex.select('id')
-  // .from('polls')
-  // .where('poll_name', pollName)
-  // .then(function (data) {
-  //   pollID = data;
-  // })
-  // .finally(function() {
-  //   knex.destroy();
-  // });
-
-  // console.log(pollID);
-  // for (let i = 0; i < req.body.something.length, i++) {
-  //   knex('poll_options')
-  //   .insert({entry_name: '',
-  //     votes: 0,
-  //     poll_id: pollID
-  //     });
-  // }
-
-  // res.redirect("/polls/:id");
-  res.status(201).send();
+  knex('polls')
+  .insert({poll_name: pollName,
+    poll_description: pollDescription,
+    poll_url: pollUrl,
+    creator_email: creatorEmail
+    })
+  .then( function () {
+      knex.select('id')
+      .from('polls')
+      .where('poll_name', pollName)
+      .then(function (data) {
+        for (let i = 3; i < req.body.form.length; i++) {
+          knex('poll_options')
+          .insert({entry_name: req.body['form'][i]['value'],
+            votes: 0,
+            poll_id: data[0].id
+            })
+          .then(function () {
+          });
+        }
+      res.status(201).send();
+      })
+  });
 });
 
 // DELETE POLL
