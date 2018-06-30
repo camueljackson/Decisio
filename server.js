@@ -40,11 +40,9 @@ app.use("/api/users", usersRoutes(knex));
 
 //===============FUNCTIONS============
 
-
-
 function generateRandomString() {
   let randomString = "";
-  let allPossibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let allPossibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   for (let i = 0; i < 5; i++)
     randomString += allPossibleCharacters.charAt(Math.floor(Math.random() * allPossibleCharacters.length));
   return randomString;
@@ -73,24 +71,43 @@ app.get("/polls/new", (req, res) => {
 
 // Specific poll ID page
 app.get("/polls/:id", (req, res) => {
-  // console.log(req.body);
-  // // Selecting poll options from database
-  // let pollOptions = {};
+  console.log(req.body);
+  
+  let pollOptions = {};
+  let pollInfo = {}
+
+  // find poll based on url
+  knex.select()
+      .from('polls')
+      .where('')
+      .then(function (poll) {
+        pollInfo = poll;
+        console.log("FOUND POLL")
+      })
+      .finally(function() {
+        knex.destroy();
+      });
+  console.log(pollInfo);
+
   // knex.select()
   //     .from('poll_options')
-  //     .where('poll_id', req.body)
+  //     .where('poll_id', pollInfo.id)
   //     .then(function (data) {
   //       pollOptions = data;
+  //       console.log("FOUND POLL OPTIONS")
   //     })
   //     .finally(function() {
   //       knex.destroy();
   //     });
   // console.log(pollOptions);
-  // let user = userInfo();
+
+
   // templateVars = {
-  //   "poll_options": pollOptions
+  //   "poll_options": pollOptions,
+  //   "poll": pollInfo
   // };
-  res.render("polls_show", templateVars);
+
+  res.render("polls_show");
 });
 
 
@@ -98,23 +115,42 @@ app.get("/polls/:id", (req, res) => {
 
 // New poll post
 app.post("/polls", (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
+
+  // let pollName = '';
+  // let pollDescription = '';
+  // let pollUrl = generateRandomString();
+  // let creatorEmail = '';
+
   // knex('polls')
-  // .insert({poll_name: , poll_description: , user_id: req.session.user_id});
-  // let pollID = 0;
+  // .insert({poll_name: pollName,
+  //   poll_description: pollDescription,
+  //   poll_url: pollUrl,
+  //   creator_email: creatorEmail
+  //   });
+
+
   // knex.select('id')
   // .from('polls')
-  // .where('poll_name', poll_name)
+  // .where('poll_name', pollName)
   // .then(function (data) {
   //   pollID = data;
   // })
   // .finally(function() {
   //   knex.destroy();
-  // });;
+  // });
+
   // console.log(pollID);
-  // knex('poll_options')
-  // .insert({entry_name: , votes: 0, poll_id: pollID});
-  res.redirect("/polls/:id");
+  // for (let i = 0; i < req.body.something.length, i++) {
+  //   knex('poll_options')
+  //   .insert({entry_name: '',
+  //     votes: 0,
+  //     poll_id: pollID
+  //     });
+  // }
+
+  // res.redirect("/polls/:id");
+  res.status(201).send();
 });
 
 // Specific poll ID DELETE
