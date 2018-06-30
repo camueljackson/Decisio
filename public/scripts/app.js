@@ -44,11 +44,12 @@ $('.btn-primary').on('click', event => {
 $('.createpoll').on('click', event => {
   event.preventDefault();
 
-
         $.ajax({
-             url: '/polls',
+             url: '/pollsredirect',
              method: 'POST',
-             success: function (response) {}
+             success: function (response) {
+               window.location.href = "/polls"
+             }
          });
 });
 
@@ -79,102 +80,5 @@ $('.deletebutton').on('click', event => {
        success: function (response) {}
    });
 });
-
-$('.registerbutton').on('click', event => {
-  event.preventDefault();
-
-
-
-  $.ajax({
-       url: '/users',
-       method: 'POST',
-       success: function (response) {}
-   });
-});
-
-// NAV-BAR REGISTER BUTTON
-$('.registerbutton').on('click', event => {
-  event.preventDefault();
-
-
-
-  $.ajax({
-       url: '/polls/:id',
-       method: 'POST',
-       success: function (response) {}
-   });
-});
-
-// REGISTRATION PAGE REGISTER BUTTON
-$('#registerbutton_submit').on('click', event => {
-  event.preventDefault();
-
-  let username = $("#registerUserName").val();
-  let email = $("#registerEmail").val();
-  let password = $("#registerPassword").val();
-
-  let newUser = {
-   "username": username,
-   "email": email,
-   "password": password
-  };
-  console.log(newUser);
-
-  $.ajax({
-       url: '/registration',
-       method: 'POST',
-       data: newUser,
-       success: function (response) {
-        window.location.href = "/polls"
-       }
-   });
-});
-
-// NAV-BAR LOGGIN BUTTON
-$('.loginbutton').on('click', event => {
-  event.preventDefault();
-
-
-
-  $.ajax({
-       url: '/polls/:id',
-       method: 'POST',
-       success: function (response) {}
-   });
-});
-
-// LOGIN PAGE LOGIN BUTTON
-$('#loginbutton_submit').on('click', event => {
-  event.preventDefault();
-
-  let email = $("#loginEmail").val();
-  let password = $("#loginPassword").val();
-
-  let loginUser = {
-   "email": email,
-   "password": password
-  };
-
-  $.ajax({
-       url: '/login',
-       method: 'POST',
-       data: loginUser,
-       success: function (response) {}
-   });
-});
-
-// NAV-BAR LOGOUT
-$('.logoutbutton').on('click', event => {
-  event.preventDefault();
-
-
-  $.ajax({
-       url: '/logout',
-       method: 'POST',
-       success: function (response) {}
-   });
-});
-
-
-
+       
 });

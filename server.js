@@ -50,13 +50,13 @@ function generateRandomString() {
 
 //===============GETS===============
 
-// Home page
+// HOME PAGE
 app.get("/", (req, res) => {
     res.render("home");
 });
 
 
-// Polls index page
+// POLLS INDEX PAGE
 app.get("/polls", (req, res) => {
   // let templateVars = {
   // };
@@ -64,19 +64,19 @@ app.get("/polls", (req, res) => {
 });
 
 
-// // Create poll page
+// CREATE POLL PAGE
 app.get("/polls/new", (req, res) => {
   res.render("polls_new");
 });
 
-// Specific poll ID page
+// VOTING/SPECIFIC POLL PAGE
 app.get("/polls/:id", (req, res) => {
   console.log(req.body);
   
   let pollOptions = {};
   let pollInfo = {}
 
-  // find poll based on url
+  // FIND POLL BASED ON URL (MAYBE CHANGE TO NAME)
   knex.select()
       .from('polls')
       .where('')
@@ -89,6 +89,7 @@ app.get("/polls/:id", (req, res) => {
       });
   console.log(pollInfo);
 
+  // FIND POLL OPTIONS BASED ON POLL ID
   // knex.select()
   //     .from('poll_options')
   //     .where('poll_id', pollInfo.id)
@@ -107,13 +108,24 @@ app.get("/polls/:id", (req, res) => {
   //   "poll": pollInfo
   // };
 
+  // ADD TEMPLATE VARS WHEN KNEX QUERIES ARE VERIFIED
   res.render("polls_show");
+});
+
+// LOGIN PAGE
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+// REGISTER PAGE
+app.get("/registration", (req, res) => {
+  res.render("register");
 });
 
 
 //===============POSTS===============
 
-// New poll post
+// CREATE NEW POLL
 app.post("/polls", (req, res) => {
   console.log(req.body);
 
@@ -153,7 +165,7 @@ app.post("/polls", (req, res) => {
   res.status(201).send();
 });
 
-// Specific poll ID DELETE
+// DELETE POLL
 app.delete("/polls/:id", (req, res) => {
   // let pollID = req.params.id;
     knex('polls')
@@ -164,17 +176,15 @@ app.delete("/polls/:id", (req, res) => {
     });
 });
 
+// REDIRECT - CREATE POLL BUTTON => CREATE PAGE
+app.post("/pollsredirect", (req, res) => {
+  res.status(201).send();
+});
+
 // Edit poll?
 // app.put("/polls/:id", (req, res) => {
 // });
-// // Home page Login button post
-// app.post("/login-home", (req, res) => {
-//   res.redirect("/login");
-// });
-// // Home page Register button post
-// app.post("/register-home", (req, res) => {
-//   res.redirect("/register");
-// });
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
