@@ -29,11 +29,6 @@ app.use(sassMiddleware({
   outputStyle: 'compressed',
   prefix: '/styles'
 }));
-app.use(cookieSession({
-  name: 'session',
-  keys: ["77777", "99181"],
-  maxAge: 24 * 60 * 60 * 1000
-}));
 app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
@@ -72,7 +67,7 @@ app.get("/polls/new", (req, res) => {
 // VOTING/SPECIFIC POLL PAGE
 app.get("/polls/:id", (req, res) => {
   console.log(req.body);
-  
+
   let pollOptions = {};
   let pollInfo = {}
 
