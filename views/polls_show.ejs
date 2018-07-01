@@ -3,6 +3,31 @@
   <% include partials/_head %>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
+   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+
+window.onload = function () {
+  var chart = new CanvasJS.Chart("chartContainer", {
+    title:{
+      text: "My First Chart in CanvasJS"
+    },
+    data: [
+    {
+      // Change type to "doughnut", "line", "splineArea", etc.
+      type: "doughnut",
+      dataPoints: [
+        { label: "apple",  y: 10  },
+        { label: "orange", y: 15  },
+        { label: "banana", y: 25  },
+        { label: "mango",  y: 30  },
+        { label: "grape",  y: 28  }
+      ]
+    }
+    ]
+  });
+  chart.render();
+}
+</script>
 </head>
 <body>
   <header>
@@ -21,7 +46,12 @@
         <div >
           <ul id="sortable">
             <% for (let q = 0; q < poll_options.length; q++) { %>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><div class="entry"><%= poll_options[q] %></div></li>
+            <li class="ui-state-default">
+            <span class="ui-icon ui-icon-arrowthick-2-n-s">
+            </span>
+            <div class="entry"><%= poll_options[q] %>
+            </div>
+            </li>
              <% }; %>
           </ul>
         </div>
@@ -30,6 +60,14 @@
     </form>
   </div>
 </div>
+    <section class="container">
+      <h4>Camuel Jackson hire</h4>
+        <div id="chartContainer" style="height: 300px; width: 50%;"></div>
+        <footer>
+          <p>153 responses</p>
+          <p>Top response : Hire</p>
+          <p>12 days ago</p>
+        </footer>
 <% include partials/_footer %>
 </body>
 </html>
