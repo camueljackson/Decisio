@@ -12,22 +12,22 @@
       <h2 class='newFormTitle'>Have to take a decision? Ask your friends</h2>
       <form action="/login/new" method="POST" class="multiple_emails-container formBox formData">
         <div class='topOfForm'>
-          <p>Enter your email to keep track of votes!</p>
-            <input type="text" name="creatorEmail" class='form-control creatorEmail'>
+          <h5>Enter your email to keep track of votes!</h5>
+            <input type="text" name="creatorEmail" class='form-control creatorEmail' autocomplete='email'>
           </div>
           <br>
           <div>
-            <label>Enter a poll title :</label>
+            <h5>Enter a poll title :</h5>
             <input class="form-control formTitle" name="poll_title">
           </div>
           <br>
           <div>
-            <label>Enter a description of your poll :</label>
+            <h5>Enter a description of your poll :</h5>
             <input class=" form-control formDescription" name="poll_description">
           </div>
           <br>
           <div >
-            <label>Enter a poll choices :</label>
+            <h5>Add choices :</h5>
             <i class="fas fa-plus-square"></i>
             <div class="pollItemContainer">
               <input class="form-control choice1" name="poll_choice">
@@ -46,7 +46,7 @@
                 </div>
               </a>
               <button class="btn red addEmail" type="button">Add To List Of Recipients</button>
-              <button type="button" id='formSubmit' class="btn btn-primary sendVote">Send Email To All</button>
+              <button type="button" id='formSubmit' class="btn btn-primary sendVote">Send Form</button>
             </div>
         </form>
       </div>
