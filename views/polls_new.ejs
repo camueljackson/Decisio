@@ -9,31 +9,12 @@
   </header>
   <div class="container">
     <div class="col-md-auto">
-      <form action="/login/new" method="POST" class="multiple_emails-container formBox">
+      <form action="/login/new" method="POST" class="multiple_emails-container formBox formData">
         <h2>Have to take a decision? Ask your friends</h2>
         <div>
           <p>Enter your email! to keep track of votes!<p>
             <textarea type="text" name="creatorEmail" class='creatorEmail'></textarea>
           </div>
-<!-- <<<<<<< HEAD
-        </div>
-            <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
-      <li>
-        <a href="javascript:;">
-          <label>Recipients:</label>
-          <div class="input-group input-group-md">
-            <input type="text" id="example_emailBS" class="form-control" value='["pbolduc2354@gmail.com", "pbolduc2354@gmail.com"]'>
-            <span class="input-group-btn">
-              <button class="btn red" type="button"><i class="fa fa-calendar-plus-o"></i></button>
-            </span>
-          </div>
-        </a>
-      </li>
-    </ul>
-        <button type="button" class="btn btn-primary" id="formSubmit">Send </button>
-      </form>
-    </div>
-=======
           <div>
             <label>Enter a poll title :</label>
             <textarea class="form-control formTitle col col-md-4" name="poll_title"></textarea>
@@ -63,7 +44,6 @@
           <button type="button" id='formSubmit' class="btn btn-primary sendVote">Send Email</button>
         </form>
       </div>
->>>>>>> feature/email -->
     </div>
     <% include partials/_footer %>
   </body>

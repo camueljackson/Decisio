@@ -75,7 +75,7 @@ app.get("/polls/:id", (req, res) => {
   let pollName = '';
   let pollDescription = '';
   let pollID = 0;
-  let pollOptions = {};
+  let pollOptions = [];
 
   // FIND POLL BASED ON URL
   knex.select()
@@ -91,7 +91,7 @@ app.get("/polls/:id", (req, res) => {
         .where('poll_id', pollID)
         .then(function (data) {
           for (let i = 0; i < data.length; i++) {
-            pollOptions[`option${i}`] = data[i].entry_name;
+            pollOptions.push(data[i].entry_name);
             // pollOptions[`votes${i}`] = data[i].votes;
           }
           let templateVars = {
@@ -119,6 +119,7 @@ app.get("/registration", (req, res) => {
 
 // CREATE NEW POLL
 app.post("/polls", (req, res) => {
+  console.log(req.body);
    let emailParticipant = req.body['emails'];
         var data = {
         from: 'Excited User <pbolduc2354@gmail.com>',
@@ -182,6 +183,7 @@ app.post("/vote", (req, res) => {
     // UPDATE VOTES ON EACH ENTRY
     for (let i = 0; i < options.length; i++) {
       let entryName = options[i];
+      console.log(entryName);
       
       // ++++++++++++++++++++++++++++++++++++
       // SELECT CURRENT VOTE 
@@ -190,7 +192,6 @@ app.post("/vote", (req, res) => {
       .from('poll_options')
       .where('entry_name', options[i])
       .then(function (currentVote) {
-        console.log(options[i]);
 
         // UPDATE CURRENT VOTE
         knex
@@ -209,6 +210,36 @@ app.post("/vote", (req, res) => {
   });
 });
 
+
+app.post("/index", (req, res) => {
+  console.log(req.body);
+
+  // knex.select()
+  //     .from('polls')
+  //     .where('poll_url', req.params.id)
+  //     .then(function (data) {
+  //       pollName = data[0].poll_name;
+  //       pollDescription = data[0].poll_description;
+  //       pollID = data[0].id;
+  //       //FIND POLL OPTIONS BASED ON POLL_ID
+  //       knex.select()
+  //       .from('poll_options')
+  //       .where('poll_id', pollID)
+  //       .then(function (data) {
+  //         for (let i = 0; i < data.length; i++) {
+  //           pollOptions.push(data[i].entry_name);
+  //           // pollOptions[`votes${i}`] = data[i].votes;
+  //         }
+  //         let templateVars = {
+  //           "poll_options": pollOptions,
+  //           "poll_description": pollDescription,
+  //           "poll_name": pollName
+  //         };
+  //         res.render("polls_show", templateVars);
+  //       });
+  //     });
+});
+
 // DELETE POLL
 app.delete("/polls/:id", (req, res) => {
   // let pollID = req.params.id;
@@ -221,9 +252,9 @@ app.delete("/polls/:id", (req, res) => {
 });
 
 // REDIRECT - CREATE POLL BUTTON => CREATE PAGE
-app.post("/pollsredirect", (req, res) => {
-  res.status(201).send();
-});
+// app.post("/pollsredirect", (req, res) => {
+//   res.status(201).send();
+// });
 
 // Edit poll?
 // app.put("/polls/:id", (req, res) => {

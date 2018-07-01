@@ -61,17 +61,34 @@ $('.vote').on('click', event => {
      options.push($(".entry", this) .text());
     });
   voteInfo['options'] = options;
-  // console.log(voteInfo['options']);
+  console.log(voteInfo['options']);
 
   $.ajax({
     url: '/vote',
     method: 'POST',
     data: voteInfo,
     success: function (response) {
-      // console.log("working");
+      console.log("working");
     }
   });
 });
+
+// DISPLAY POLLS ON EMAIL ENTRY
+$('.index_email').on('click', event => {
+  event.preventDefault();
+  let email = $('.index_email_text').val();
+
+
+  $.ajax({
+    url: '/index',
+    method: 'POST',
+    data: email,
+    success: function (response) {
+      console.log("working");
+    }
+  });
+});
+
 
 // DELETE BUTTON
 $('.deletebutton').on('click', event => {

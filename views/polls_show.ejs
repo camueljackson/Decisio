@@ -20,8 +20,8 @@
         </div>
         <div >
           <ul id="sortable">
-            <% for (option in poll_options) { %>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><div class="entry"><%= poll_options[option] %></div></li>
+            <% for (let q = 0; q < poll_options.length; q++) { %>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><div class="entry"><%= poll_options[q] %></div></li>
              <% }; %>
           </ul>
         </div>

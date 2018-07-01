@@ -35,6 +35,13 @@ window.onload = function () {
   </header>
   <h1>here's your polls : </h1>
   <main >
+
+    <form class ="sign-up-form" method="POST" action="/index">
+            <label for="email">Email:</label>
+            <input class ="index_email_text" autocomplete='email' type="email" name="email" style="width: 300px" >
+            <input class="index_email btn" type="submit" name="email" value="Submit">
+          </form>
+
     <section class="container">
       <h4>Camuel Jackson hire</h4>
       <!-- <div class="poll_basic_info"> -->
@@ -52,6 +59,9 @@ window.onload = function () {
     </section>
   </form>
 </div>
+
+
+
 </main>
 <% include partials/_footer %>
 </body>
