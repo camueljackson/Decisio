@@ -1,28 +1,34 @@
 $('document').ready(function () {
 
 
-let formCount = 2;
-let fieldID = 2;
+  let formCount = 2;
+  let fieldID = 2;
 
 // NEW FORM ELEMENT
 $('.fa-plus-square').on('click', event => {
   event.preventDefault();
   $('.emptyField').remove();
 
-    let form1text = $('.choice1').val().length;
-    let form2text = $('.choice2').val().length;
-    let emptyFieldMessage = 'Please enter text';
+  let form1text = $('.choice1').val().length;
+  let form2text = $('.choice2').val().length;
+  let emptyFieldMessage = 'Please enter text';
 
-        if (form1text === 0 || form2text === 0) {
-          $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.pollItemContainer');
+  if (form1text === 0 || form2text === 0) {
+    $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.pollItemContainer');
 
-        } else {
-          formCount++;
-          fieldID++;
-          let newfield = $('<input>').attr('name', 'newFormField' + formCount).attr('id', 'pollOptionID' + fieldID).appendTo('.pollItemContainer');
-          console.log(newfield);
-        }
-  });
+  } else {
+    formCount++;
+    fieldID++;
+    newfield = $('<input>').attr('name', 'newFormField' + formCount).attr('id', 'pollOptionID' + fieldID).addClass('form-control').appendTo('.pollItemContainer');
+
+    let newfield = $('<input>').attr('name', 'newFormField' + formCount).attr('id', 'pollOptionID' + fieldID).addClass('form-control').appendTo('.pollItemContainer');
+
+    // let newFormField = $('.form-control').val().length
+    // if (newFormField === 0) {
+    //   $('<div>').addClass('emptyField').text(emptyFieldMessage).appendTo('.pollItemContainer');
+    // }
+  }
+});
 
 
 // COMPLETE FORM
@@ -41,7 +47,12 @@ $('#formSubmit').on('click', event => {
     method: 'POST',
     data: output,
     success: function (response) {
-      window.location.href = "/polls"
+
+      let redirect = `localhost:8080/polls/${response}`
+
+      $('.form')
+
+      window.location.href = `${response}`
     }
   });
 });
