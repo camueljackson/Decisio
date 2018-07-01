@@ -162,7 +162,7 @@ app.post("/polls", (req, res) => {
           .then(function () {
           });
         }
-      res.status(201).send();
+      res.status(201).send(pollUrl);
       })
   });
 });
