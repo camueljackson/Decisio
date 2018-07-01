@@ -82,9 +82,9 @@ app.get("/polls/:id", (req, res) => {
       .from('polls')
       .where('poll_url', req.params.id)
       .then(function (data) {
-        pollName = data[0].poll_name;
-        pollDescription = data[0].poll_description;
-        pollID = data[0].id;
+        // pollName = data[0].poll_name;
+        // pollDescription = data[0].poll_description;
+        // pollID = data[0].id;
         //FIND POLL OPTIONS BASED ON POLL_ID
         knex.select()
         .from('poll_options')
@@ -184,9 +184,9 @@ app.post("/vote", (req, res) => {
     for (let i = 0; i < options.length; i++) {
       let entryName = options[i];
       console.log(entryName);
-      
+
       // ++++++++++++++++++++++++++++++++++++
-      // SELECT CURRENT VOTE 
+      // SELECT CURRENT VOTE
       knex
       .select('votes')
       .from('poll_options')

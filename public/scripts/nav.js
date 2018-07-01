@@ -6,3 +6,8 @@ $('.navCreatePoll').on('click', event => {
 $('.navLogin').on('click', event => {
   window.location.href='/login';
 });
+
+
+$('.logoDecisio').on('click', event => {
+  window.location.href='/polls';
+});
