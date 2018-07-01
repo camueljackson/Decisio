@@ -199,10 +199,28 @@ app.post("/vote", (req, res) => {
     })
 
 
+  function updateCurrentVote(pollid, entryname, options, bordacount, currentvote) {
+    knex
+    .table('poll_options')
+    .where('poll_id', pollid)
+    .andWhere('entry_name', entryname)
+    .update({
+      votes: (currentvote + bordacount)
+    })
+    .returning('*')
+    .then(result => console.log("Result", result));
+  }
 
 
-
-
+  function selectCurrentVote(pollid, entryname, options, bordacount) {
+    return knex
+    .select('votes')
+    .from('poll_options')
+    .where('entry_name', entryname)
+    .then(function (currentVote) {
+      updateCurrentVote(pollid, entryname, options, bordacount, currentVote[0].votes);
+    });
+  }
 
   // SELECT ID OF CURRENT POLL
   knex
@@ -215,28 +233,11 @@ app.post("/vote", (req, res) => {
     // UPDATE VOTES ON EACH ENTRY
     for (let i = 0; i < options.length; i++) {
       let entryName = options[i];
-      console.log(entryName);
-
-      // ++++++++++++++++++++++++++++++++++++
-      // SELECT CURRENT VOTE
-      knex
-      .select('votes')
-      .from('poll_options')
-      .where('entry_name', options[i])
-      .then(function (currentVote) {
-
-        // UPDATE CURRENT VOTE
-        knex
-        .table('poll_options')
-        .where('poll_id', pollID)
-        .andWhere('entry_name', entryName)
-        .update({
-          votes: (currentVote[0].votes + bordaCount)
-        })
-        .returning('*')
-        .then(result => console.log("Result", result));
-        bordaCount--;
-      });
+      async function updateVotes () {
+        await selectCurrentVote(pollID, entryName, options, bordaCount);
+      }
+      updateVotes();
+      bordaCount--;
     }
   res.status(201).send();
   });
