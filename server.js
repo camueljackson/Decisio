@@ -92,11 +92,11 @@ app.get("/polls/:id", (req, res) => {
         .then(function (data) {
           for (let i = 0; i < data.length; i++) {
             pollOptions[`option${i}`] = data[i].entry_name;
-            pollOptions[`votes${i}`] = data[i].votes;
+            // pollOptions[`votes${i}`] = data[i].votes;
           }
           let templateVars = {
             "poll_options": pollOptions,
-            "poll_decription": pollDescription,
+            "poll_description": pollDescription,
             "poll_name": pollName
           };
           res.render("polls_show", templateVars);
@@ -119,7 +119,6 @@ app.get("/registration", (req, res) => {
 
 // CREATE NEW POLL
 app.post("/polls", (req, res) => {
-  console.log(req.body);
    let emailParticipant = req.body['emails'];
         var data = {
         from: 'Excited User <pbolduc2354@gmail.com>',
@@ -127,7 +126,6 @@ app.post("/polls", (req, res) => {
         subject: 'Hello',
         text: 'Testing some Mailgun awesomeness!'
       };
-console.log(data);
       mailgun.messages().send(data, function (error, body) {
         console.log(error)
         console.log(body);
@@ -135,10 +133,10 @@ console.log(data);
 
   let creatorEmail = req.body['form'][0]['value'];
   let pollName = req.body['form'][1]['value'];
-  let pollDescription = req.body['form'][3]['value'];
+  let pollDescription = req.body['form'][2]['value'];
   let pollUrl = generateRandomString();
 
-
+  //INSERT DATA
   knex('polls')
   .insert({poll_name: pollName,
     poll_description: pollDescription,
@@ -146,11 +144,13 @@ console.log(data);
     creator_email: creatorEmail
     })
   .then( function () {
+      //SELECT POLL ID
       knex.select('id')
       .from('polls')
       .where('poll_name', pollName)
       .then(function (data) {
         for (let i = 3; i < req.body.form.length; i++) {
+          //STORE SELECTED ID AS FOREIGN KEY, STORE ENTRY NAME
           knex('poll_options')
           .insert({entry_name: req.body['form'][i]['value'],
             votes: 0,
@@ -161,6 +161,51 @@ console.log(data);
         }
       res.status(201).send();
       })
+  });
+});
+
+// VOTE ON POLL
+app.post("/vote", (req, res) => {
+  let pollName = req.body.name;
+  let pollID = 0;
+  let options = req.body.options;
+  let bordaCount = options.length;
+
+  // SELECT ID OF CURRENT POLL
+  knex
+  .select('id')
+  .from('polls')
+  .where('poll_name', pollName)
+  .then(function (data) {
+    pollID = data[0].id;
+
+    // UPDATE VOTES ON EACH ENTRY
+    for (let i = 0; i < options.length; i++) {
+      let entryName = options[i];
+      
+      // ++++++++++++++++++++++++++++++++++++
+      // SELECT CURRENT VOTE 
+      knex
+      .select('votes')
+      .from('poll_options')
+      .where('entry_name', options[i])
+      .then(function (currentVote) {
+        console.log(options[i]);
+
+        // UPDATE CURRENT VOTE
+        knex
+        .table('poll_options')
+        .where('poll_id', pollID)
+        .andWhere('entry_name', entryName)
+        .update({
+          votes: (currentVote[0].votes + bordaCount)
+        })
+        .returning('*')
+        .then(result => console.log("Result", result));
+        bordaCount--;
+      });
+    }
+  res.status(201).send();
   });
 });
 

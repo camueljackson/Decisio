@@ -41,58 +41,36 @@ $('#formSubmit').on('click', event => {
     method: 'POST',
     data: output,
     success: function (response) {
-      console.log('working!')
+      window.location.href = "/polls"
     }
   });
 });
 
 
-
+// VOTE SUBMISSION BUTTON
 $('.vote').on('click', event => {
   event.preventDefault();
 
-  let voteItems = $('#sortable').children('li');
+  // let voteItems = $('#sortable').text();
+  let pollName = $('.poll_name_vote').text();
+  let voteInfo = {};
+  let options = [];
+  voteInfo['name'] = pollName;
 
-  for (let i = 0; i<voteItems.length; i++) {
-      console.log(voteItems[i])
+  $('ul > li').each(function() {
+     options.push($(".entry", this) .text());
+    });
+  voteInfo['options'] = options;
+  // console.log(voteInfo['options']);
 
-      //voteItems[i] logs
-    }
   $.ajax({
-    url: '/polls/show',
+    url: '/vote',
     method: 'POST',
-    data:   ''     ,
+    data: voteInfo,
     success: function (response) {
-      console.log('working!')
+      // console.log("working");
     }
   });
-});
-
-
-// NAV-BAR CREATE BUTTON
-$('.createpoll').on('click', event => {
-  event.preventDefault();
-
-
-        $.ajax({
-             url: '/polls',
-             method: 'POST',
-             success: function (response) {}
-         });
-});
-
-// VOTE SUBMISSION BUTTON
-$('.votebutton').on('click', event => {
-  event.preventDefault();
-
-  //voting scores
-
-        $.ajax({
-             url: '/polls/:id',
-             method: 'POST',
-             data: scores,
-             success: function (response) {}
-         });
 });
 
 // DELETE BUTTON
@@ -108,19 +86,6 @@ $('.deletebutton').on('click', event => {
        success: function (response) {}
    });
 });
-
-$('.registerbutton').on('click', event => {
-  event.preventDefault();
-
-
-
-  $.ajax({
-       url: '/users',
-       method: 'POST',
-       success: function (response) {}
-   });
-});
-
 
 (function( $ ){
 

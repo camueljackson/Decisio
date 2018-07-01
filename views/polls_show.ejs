@@ -12,25 +12,21 @@
     <div class="col-md-auto">
       <form action="/login/new" method="POST" class='formBox'>
         <div>
-          <h2>Camuel Jackson hire</h2>
+          <h2 class="poll_name_vote"><%= poll_name %></h2>
         </div>
         <div>
           <h3>Poll description :</h3>
-          <p>Lorem ipsum dolor amet literally intelligentsia portland banh mi. Raw denim mlkshk PBR&B adaptogen, salvia squid intelligentsia. Offal squid marfa put a bird on it distillery snackwave. Farm-to-table mustache hell of cred distillery. Literally man braid tote bag farm-to-table, crucifix stumptown irony franzen. Activated charcoal organic adaptogen godard. Celiac adaptogen pinterest listicle schlitz yuccie bushwick gentrify.</p>
+          <p><%= poll_description %></p>
         </div>
         <div >
           <ul id="sortable">
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+            <% for (option in poll_options) { %>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><div class="entry"><%= poll_options[option] %></div></li>
+             <% }; %>
           </ul>
         </div>
       </div>
-      <button type="button" class="btn btn-primary">Send </button>
+      <button type="button" class="btn btn-primary vote">Send </button>
     </form>
   </div>
 </div>
