@@ -76,32 +76,34 @@ app.get("/polls/:id", (req, res) => {
   let pollDescription = '';
   let pollID = 0;
   let pollOptions = [];
+  let pollVotes = [];
 
   // FIND POLL BASED ON URL
   knex.select()
-      .from('polls')
-      .where('poll_url', req.params.id)
+    .from('polls')
+    .where('poll_url', req.params.id)
+    .then(function (data) {
+      pollName = data[0].poll_name;
+      pollDescription = data[0].poll_description;
+      pollID = data[0].id;
+      //FIND POLL OPTIONS BASED ON POLL_ID
+      knex.select()
+      .from('poll_options')
+      .where('poll_id', pollID)
       .then(function (data) {
-        pollName = data[0].poll_name;
-        pollDescription = data[0].poll_description;
-        pollID = data[0].id;
-        //FIND POLL OPTIONS BASED ON POLL_ID
-        knex.select()
-        .from('poll_options')
-        .where('poll_id', pollID)
-        .then(function (data) {
-          for (let i = 0; i < data.length; i++) {
-            pollOptions.push(data[i].entry_name);
-            // pollOptions[`votes${i}`] = data[i].votes;
-          }
-          let templateVars = {
-            "poll_options": pollOptions,
-            "poll_description": pollDescription,
-            "poll_name": pollName
-          };
-          res.render("polls_show", templateVars);
-        });
+        for (let i = 0; i < data.length; i++) {
+          pollOptions.push(data[i].entry_name);
+          pollVotes.push(data[i].votes);
+        }
+        let templateVars = {
+          "poll_options": pollOptions,
+          "poll_description": pollDescription,
+          "poll_name": pollName,
+          "poll_votes": pollVotes
+        };
+        res.render("polls_show", templateVars);
       });
+    });
 });
 
 // LOGIN PAGE
@@ -201,8 +203,7 @@ app.post("/vote", (req, res) => {
         .update({
           votes: (currentVote[0].votes + bordaCount)
         })
-        .returning('*')
-        .then(result => console.log("Result", result));
+        .then(result => console.log(result));
         bordaCount--;
       });
     }
@@ -211,34 +212,37 @@ app.post("/vote", (req, res) => {
 });
 
 
-app.post("/index", (req, res) => {
-  console.log(req.body);
+// app.post("/index", (req, res) => {
+//   let pollName = [];
+//   let pollDescription = [];
+//   let pollID = [];
+//   let pollOptions = [];
+//   let pollVotes= [];
+//   let templateVars = {};
 
-  // knex.select()
-  //     .from('polls')
-  //     .where('poll_url', req.params.id)
-  //     .then(function (data) {
-  //       pollName = data[0].poll_name;
-  //       pollDescription = data[0].poll_description;
-  //       pollID = data[0].id;
-  //       //FIND POLL OPTIONS BASED ON POLL_ID
-  //       knex.select()
-  //       .from('poll_options')
-  //       .where('poll_id', pollID)
-  //       .then(function (data) {
-  //         for (let i = 0; i < data.length; i++) {
-  //           pollOptions.push(data[i].entry_name);
-  //           // pollOptions[`votes${i}`] = data[i].votes;
-  //         }
-  //         let templateVars = {
-  //           "poll_options": pollOptions,
-  //           "poll_description": pollDescription,
-  //           "poll_name": pollName
-  //         };
-  //         res.render("polls_show", templateVars);
-  //       });
-  //     });
-});
+
+//   knex.select()
+//       .from('polls')
+//       .where('creator_email', req.body.email)
+//       .then(function (data) {
+//         console.log(data);
+//         for (let q = 0; q < data.length; q++) {
+//           pollName.push(data[q].poll_name);
+//           pollDescription.push(data[q].poll_description);
+//           pollID.push(data[q].id);
+
+//               //FIND POLL OPTIONS BASED ON POLL_ID
+//               let temp = knex.select()
+//               .from('poll_options')
+//               .where('poll_id', pollID[q])
+//               .returning('*')
+//               .then(function (data) {
+//               });
+//               console.log("temp: " + temp);
+//         }
+//       res.status(201).send(templateVars);
+//       });
+// });
 
 // DELETE POLL
 app.delete("/polls/:id", (req, res) => {
