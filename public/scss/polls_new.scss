@@ -22,11 +22,11 @@
 .sendVote {
   border: 0px;
   margin-right: .5em;
-  background-color: #6f49f6;
+  background-color: #856ae8;
 }
 
 .sendVote:hover {
-  background-color: #4a2bb7;
+  background-color: #9581de;
 }
 
 .addEmail {
@@ -40,10 +40,52 @@
   background-color: #4a2bb7;
 }
 
-.emailContainer {
-  margin-bottom: 15px;
+.recipient {
+  padding-top:10px;
+  color: black;
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
-.Recipients {
-  padding-top:10px;
+
+.emailContainer {
+  border-radius: 5px;
+  background-color: #3636366e;
+  padding-bottom: 20px;
+  padding-left: 15px;
+}
+
+.emptyField {
+font-weight: bold;
+border-radius: 5px;
+padding-left: 1em;
+}
+
+
+.topOfForm {
+  margin-top: 15px;
+}
+
+.newFormTitle {
+margin-top: 15px;
+}
+
+
+.email_name {
+  color: black;
+}
+
+.email_name:hover {
+ color: black;
+
+}
+
+
+.multiple_emails-email {
+  color: black;
+}
+
+
+.enterEmail {
+  margin-bottom: 5px;
 }
