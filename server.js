@@ -174,6 +174,36 @@ app.post("/vote", (req, res) => {
   let options = req.body.options;
   let bordaCount = options.length;
 
+
+  // mailgun send to Creator when somebody vote
+
+  knex
+  .select('creator_email')
+  .from('polls')
+  .where('poll_name', pollName)
+  .then(function (data) {
+    let email = data[0].id;
+
+    // send email to the creator
+    var data = {
+        from: 'Excited User <pbolduc2354@gmail.com>',
+        to: email,
+        subject: 'New poll vote',
+        text: 'One of your friend just vote on your poll!'
+      };
+      mailgun.messages().send(data, function (error, body) {
+        console.log(error)
+        console.log(body);
+      });
+
+    })
+
+
+
+
+
+
+
   // SELECT ID OF CURRENT POLL
   knex
   .select('id')
@@ -186,9 +216,9 @@ app.post("/vote", (req, res) => {
     for (let i = 0; i < options.length; i++) {
       let entryName = options[i];
       console.log(entryName);
-      
+
       // ++++++++++++++++++++++++++++++++++++
-      // SELECT CURRENT VOTE 
+      // SELECT CURRENT VOTE
       knex
       .select('votes')
       .from('poll_options')
@@ -203,13 +233,15 @@ app.post("/vote", (req, res) => {
         .update({
           votes: (currentVote[0].votes + bordaCount)
         })
-        .then(result => console.log(result));
+        .returning('*')
+        .then(result => console.log("Result", result));
         bordaCount--;
       });
     }
   res.status(201).send();
   });
 });
+
 
 
 // app.post("/index", (req, res) => {
