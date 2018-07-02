@@ -78,7 +78,7 @@ $('.vote').on('click', event => {
     method: 'POST',
     data: voteInfo,
     success: function (response) {
-      // $('.vote').hide();
+      $('.vote').hide();
         }
   });
 });
