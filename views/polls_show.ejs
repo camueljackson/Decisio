@@ -19,7 +19,6 @@ window.onload = function () {
         { label: "<%=poll_options[0]%>",  y: <%=poll_votes[0]%>  },
         { label: "<%=poll_options[1]%>", y: <%=poll_votes[1]%>  },
         { label: "<%=poll_options[2]%>", y: <%=poll_votes[2]%>  },
-        { label: "<%=poll_options[3]%>",  y: <%=poll_votes[3]%>  }
 
       ]
     }
@@ -68,9 +67,8 @@ window.onload = function () {
       <h4><%=poll_name%></h4>
         <div id="chartContainer" style="height: 300px; width: 50%;"></div>
         <footer>
-          <p>153 responses</p>
-          <p>Top response : Hire</p>
-          <p>12 days ago</p>
+          <p><%= total_responses %> responses</p>
+          <p>Top response : <%= highest_voted[0] %></p>
         </footer>
 <% include partials/_footer %>
 </body>

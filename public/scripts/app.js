@@ -78,8 +78,8 @@ $('.vote').on('click', event => {
     method: 'POST',
     data: voteInfo,
     success: function (response) {
-      console.log("working");
-    }
+      // $('.vote').hide();
+        }
   });
 });
 

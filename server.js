@@ -41,6 +41,9 @@ app.use("/api/users", usersRoutes(knex));
 
 //===============FUNCTIONS============
 
+var totalVotes = 0;
+
+
 function generateRandomString() {
   let randomString = "";
   let allPossibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -95,36 +98,41 @@ app.get("/polls/:id", (req, res) => {
           pollOptions.push(data[i].entry_name);
           pollVotes.push(data[i].votes);
         }
-        let templateVars = {
+
+
+        function sortNumber(a,b) {
+          return a + b;
+        }
+
+        let highestVoted = pollVotes;
+        highestVoted.sort(sortNumber);
+
+        console.log("highestVoted" + highestVoted);
+
+        let temp = highestVoted[0]
+
+        console.log (temp);
+
+        knex
+        .select('entry_name')
+        .from('poll_options')
+        .where('votes', 32)
+        .andWhere('poll_id', pollID)
+        .then(function (data) { 
+
+          let templateVars = {
           "poll_options": pollOptions,
           "poll_description": pollDescription,
           "poll_name": pollName,
-          "poll_votes": pollVotes
+          "poll_votes": pollVotes,
+          "total_responses": totalVotes,
+          "highest_voted": ''
         };
 
+        res.render("polls_show", templateVars);});
 
-//   window.onload = function () {
-//   var chart = new CanvasJS.Chart("chartContainer", {
-//     title:{
-//       text: "My First Chart in CanvasJS"
-//     },
-//     data: [
-//     {
-//       // Change type to "doughnut", "line", "splineArea", etc.
-//       type: "doughnut",
-//       dataPoints: [
-//         { label: "apple",  y: 10  },
-//         { label: "orange", y: 15  },
-//         { label: "banana", y: 25  },
-//         { label: "mango",  y: 30  },
-//         { label: "grape",  y: 28  }
-//       ]
-//     }
-//     ]
-//   });
-//   chart.render();
-// }
-        res.render("polls_show", templateVars);
+
+
       });
     });
 });
@@ -144,7 +152,6 @@ app.get("/registration", (req, res) => {
 
 // CREATE NEW POLL
 app.post("/polls", (req, res) => {
-  console.log(req.body);
    let emailParticipant = req.body['emails'];
         var data = {
         from: 'Excited User <pbolduc2354@gmail.com>',
@@ -190,6 +197,9 @@ app.post("/polls", (req, res) => {
   });
 });
 
+
+
+
 // VOTE ON POLL
 app.post("/vote", (req, res) => {
   let pollName = req.body.name;
@@ -218,11 +228,12 @@ app.post("/vote", (req, res) => {
         console.log(error)
         console.log(body);
       });
-
     })
 
+  totalVotes++;
 
-  function updateCurrentVote(pollid, entryname, options, bordacount, currentvote) {
+
+  async function updateCurrentVote(pollid, entryname, options, bordacount, currentvote) {
     knex
     .table('poll_options')
     .where('poll_id', pollid)
@@ -235,13 +246,19 @@ app.post("/vote", (req, res) => {
   }
 
 
-  function selectCurrentVote(pollid, entryname, options, bordacount) {
-    return knex
+  async function selectCurrentVote(pollid, entryname, options, bordacount) {
+    console.log("POLLID: " + pollid);
+    console.log("ENTRYNAME: " + entryname);
+    console.log("OPTIONS: " + options);
+    console.log("BORDACOUNT: " + bordacount);
+    knex
     .select('votes')
     .from('poll_options')
     .where('entry_name', entryname)
+    .andWhere('poll_id', pollid)
     .then(function (currentVote) {
-      updateCurrentVote(pollid, entryname, options, bordacount, currentVote[0].votes);
+      console.log(currentVote)
+      updateCurrentVote(pollid, entryname, options, bordacount, currentVote);
     });
   }
 
