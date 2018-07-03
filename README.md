@@ -5,9 +5,11 @@ It is built using HTML, EJS, CSS, JS, jQuery, and AJAX for front-end, and Node, 
 
 ##Final Product
 
-!["Screenshot of Create Poll page"](https://github.com/IA-n7/tweeter/blob/master/docs/tweet-box.png?raw=true)
-!["Screenshot of Poll Index page"](https://github.com/IA-n7/tweeter/blob/master/docs/tweets.png?raw=true)
-!["Screenshot of Voting page"](https://github.com/IA-n7/tweeter/blob/master/docs/tweets.png?raw=true)
+!["Screenshot of Create Poll page"](https://raw.githubusercontent.com/pbolduc2354/Decisio/master/docs/Createpoll.png)
+!["Screenshot of Create Poll page"](https://raw.githubusercontent.com/pbolduc2354/Decisio/master/docs/Createpoll2.png)
+!["Screenshot of Login page"](https://raw.githubusercontent.com/pbolduc2354/Decisio/master/docs/Login.png)
+!["Screenshot of Poll Index page"](https://raw.githubusercontent.com/pbolduc2354/Decisio/master/docs/Pollindex.png)
+!["Screenshot of Voting page"](https://raw.githubusercontent.com/pbolduc2354/Decisio/master/docs/Voteonpoll.png)
 
 
 ## Dependencies
